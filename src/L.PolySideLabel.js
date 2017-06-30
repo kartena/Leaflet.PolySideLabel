@@ -73,6 +73,10 @@ L.PolySideLabel = L.Class.extend({
         var showLabels = true;
 
         var latlngs = this._polygon.getLatLngs();
+        if (this._polygon instanceof L.Polygon) {
+            latlngs = latlngs[0]; // this first array is the polygon points, the others are the holes.
+        }
+
         var numberOfSides = latlngs.length;
         var isPolygon = this._isPolygon(this._polygon);
         if (!isPolygon) {

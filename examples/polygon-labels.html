@@ -2,19 +2,19 @@
 <html>
 <head>
 	<title>Leaflet, example for PolySideLabels</title>
+	<meta charset="utf-8">
 
-	<link rel="stylesheet" href="../lib/leaflet-0.6.4/leaflet.css" />
+	<link rel="stylesheet" href="../lib/leaflet-1.0.3/leaflet.css" />
     <link rel="stylesheet" href="../css/marker-extend.css" />
-    <link rel="stylesheet" href="../lib/Leaflet.draw-0.2.0/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="../lib/Leaflet.draw-0.4.9/leaflet.draw.css" />
 	<!--[if lte IE 8]>
 		<link rel="stylesheet" href="../lib/leaflet-0.6.4/leaflet.ie.css" />
         <link rel="stylesheet" href="../lib/Leaflet.draw-0.2.0/dist/leaflet.draw.ie.css" />
 	<![endif]-->
 
 	<script src="../lib/jquery-1.6.4.min.js"></script>
-	<script src="../lib/leaflet-0.6.4/leaflet-src.js"></script>
-    <script src="../lib/Leaflet.draw-0.2.0/dist/leaflet.draw.js"></script>
-	<script src="../src/L.CircleEditor.js" ></script> 
+	<script src="../lib/leaflet-1.0.3/leaflet.js"></script>
+    <script src="../lib/Leaflet.draw-0.4.9/leaflet.draw.js"></script>
 	<script src="../src/L.PolySideLabel.js" ></script> 
 	
 	<style type="text/css">
@@ -38,9 +38,14 @@
 
 	<script src="route.js"></script>
 	<script>
-		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
-			cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18}),
-			map = new L.Map('map', {layers: [cloudmade], center: new L.LatLng(51.505, -0.04), zoom: 13});
+		var map = L.map('map').setView([51.505, -0.04], 13);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'mapbox.streets'
+		}).addTo(map);
 
         map.addControl(new L.Control.Scale({ position: 'bottomleft' }));
 
@@ -74,33 +79,16 @@
 		    fillColor: 'yellow', 
 		    fillOpacity: 0.7
 		};
-        var circle = new L.CircleEditor(circleLocation, 500, circleOptions);
+        var circle = new L.Circle(circleLocation, 500, circleOptions);
 		
+		circle.editing.enable();
 		map.addLayer(circle);
 		var labelCircle = new L.PolySideLabel(circle);
 		
-		circle.bindPopup('I am a circle');
+		
+		//circle.bindPopup('I am a circle');
 		//circleMarker.bindPopup('I am a circle marker');
 
-        /*
-		circle.on('edit', function() {
-            console.log('Circle was edited!');
-        });
-        polygon.on('edit', function() {
-            console.log('Polygon was edited!');
-        });
-        polyline.on('edit', function() {
-            console.log('Polyline was edited!');
-        });
-
-		circle.on('centerchange', function() {
-			console.log('the circle has moved.');
-		});
-
-		circle.on('radiuschange', function() {
-			console.log('the radius has chahged to: ' + this._mRadius);
-		});
-        */
 	</script>
 </body>
 </html>
